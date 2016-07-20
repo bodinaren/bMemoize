@@ -26,8 +26,8 @@
             return hash;
         }
 
-        function unmemoize(...args) {
-            if (args.length > 0) delete this.memoized[getHash(Array.prototype.slice.call(args))];
+        function unmemoize() {
+            if (arguments.length > 0) delete this.memoized[getHash(Array.prototype.slice.call(arguments))];
             else delete this.memoized;
         }
 
@@ -42,8 +42,9 @@
                 throw new TypeError;
             }
 
-            var memoized = function (...args) {
-                var hash = getHash(args);
+            var memoized = function () {
+                var args = Array.prototype.slice.call(arguments),
+                    hash = getHash(args);
 
                 fn.memoized || (fn.memoized = {});
 
